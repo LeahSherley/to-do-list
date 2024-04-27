@@ -6,6 +6,7 @@ Widget scaffoldtext(String text) {
       style: TextStyle(
         fontSize: 15,
         color: Colors.pink[300],
+        fontWeight: FontWeight.w600,
       ));
 }
 Widget mytext(String text) {
@@ -43,5 +44,16 @@ SnackBar mySnackBar(
         fontWeight: FontWeight.w500,
       ),
     ),
+  );
+}
+Widget heading(String text) {
+  return Text(
+    text,
+    style: const TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+      color: Colors.pink,
+    ),
+    textAlign: TextAlign.center,
   );
 }

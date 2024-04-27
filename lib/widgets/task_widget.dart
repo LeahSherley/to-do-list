@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/models/todo.dart';
+//import 'package:todo_app/providers/todo.dart';
 import 'package:todo_app/widgets/widgets.dart';
 
-class ToDoItem extends StatelessWidget {
+class ToDoItem extends StatefulWidget {
   const ToDoItem(
       {super.key,
       required this.todo,
       required this.onDelete,
-      required this.onChanged});
+      required this.onChanged,
+      });
 
   final ToDoList todo;
   final dynamic onDelete;
   final dynamic onChanged;
 
+  @override
+  State<ToDoItem> createState() => _ToDoItemState();
+}
+
+class _ToDoItemState extends State<ToDoItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,10 +31,15 @@ class ToDoItem extends StatelessWidget {
       ),
       child: ListTile(
         onTap: () {
-          onChanged(todo);
+          //widget.onChanged(widget.todo);
+         setState(() {
+            widget.todo.isDone = !widget.todo.isDone;
+         });
           ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context)
-              .showSnackBar(mySnackBar("${todo.todoText} completed!"));
+          ScaffoldMessenger.of(context).showSnackBar(mySnackBar(
+              widget.todo.isDone
+                  ? "${widget.todo.todoText} completed!"
+                  : "${widget.todo.todoText} incomplete!"));
         },
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
@@ -36,24 +49,25 @@ class ToDoItem extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         tileColor: Colors.pink[100],
         leading: Icon(
-          todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
+          widget.todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
           color: Colors.grey[700],
           size: 22,
         ),
         title: Text(
-          todo.todoText!,
+          widget.todo.todoText!,
           style: TextStyle(
               fontSize: 14,
               color: Colors.grey[700],
-              
-              decoration: todo.isDone ? TextDecoration.lineThrough : null),
+              decoration:
+                  widget.todo.isDone ? TextDecoration.lineThrough : null),
         ),
         trailing: IconButton(
             onPressed: () {
-              onDelete(todo.id);
+              widget.onDelete(widget.todo.id);
+              //ref.read(toDoProvider.notifier).removeTask(widget.todo.id!);
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context)
-                  .showSnackBar(mySnackBar("${todo.todoText} deleted!"));
+                  .showSnackBar(mySnackBar("${widget.todo.todoText} deleted!"));
             },
             icon: const Icon(
               Icons.delete,

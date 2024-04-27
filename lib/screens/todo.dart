@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/models/todo.dart';
+//import 'package:todo_app/providers/todo.dart';
 import 'package:todo_app/screens/additem.dart';
 import 'package:todo_app/widgets/task_widget.dart';
 import 'package:todo_app/widgets/widgets.dart';
@@ -62,6 +64,64 @@ class _ToDoState extends State<ToDo> {
     Navigator.pop(context);
   }
 
+  void _showHelpModal(BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: Colors.pink[50],
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Help',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.pink[500],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Welcome to the Help section! Here, you can find useful information and tips to enhance your experience with the app.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[700],
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'If you have any questions or encounter any issues, please feel free to contact our support team at randikileah@gmail.com.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[700],
+                ),
+              ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.pink[100], 
+                    // Set the text color
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                  child: mytext('Close'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -71,7 +131,9 @@ class _ToDoState extends State<ToDo> {
 
   @override
   Widget build(BuildContext context) {
+    //final filteredtodo = ref.watch(toDoProvider);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           final result = await showModalBottomSheet(
@@ -90,6 +152,8 @@ class _ToDoState extends State<ToDo> {
             setState(() {
               todo.add(result);
             });
+
+            //ref.read(toDoProvider.notifier).addTask(result);
           }
         },
         label: mytext("Add task to list"),
@@ -107,6 +171,7 @@ class _ToDoState extends State<ToDo> {
         ),
       ),
       drawer: Drawer(
+        backgroundColor: Colors.pink[50],
         elevation: 0,
         child: Column(
           children: [
@@ -117,8 +182,8 @@ class _ToDoState extends State<ToDo> {
                 size: 50,
                 color: Colors.grey[800],
               )),
-              accountName: drawertext("Leah"),
-              accountEmail: drawertext("lsherley90@gmail.com"),
+              accountName: drawertext("Dorinda"),
+              accountEmail: drawertext("doreen05@gmail.com"),
             ),
             ListTile(
               onTap: () => _setSelectedCategory(TaskStatus.all, context),
@@ -148,6 +213,7 @@ class _ToDoState extends State<ToDo> {
               ),
             ),
             ListTile(
+              onTap: () => _showHelpModal(context),
               title: mytext("Help"),
               leading: Icon(
                 Icons.help_center,
@@ -156,9 +222,9 @@ class _ToDoState extends State<ToDo> {
               ),
             ),
             ListTile(
-              title: mytext("Logout"),
+              title: mytext("Dark Mode"),
               leading: Icon(
-                Icons.logout,
+                Icons.dark_mode_rounded,
                 color: Colors.grey[700],
                 size: 20,
               ),
@@ -209,9 +275,9 @@ class _ToDoState extends State<ToDo> {
                 ),
               ),
             ),
-            todo.isEmpty
+            filteredtodo.isEmpty
                 ? Center(
-                    child: scaffoldtext("To do list is Empty"),
+                    child: scaffoldtext("List is Empty"),
                   )
                 : Expanded(
                     child: ListView(
@@ -220,7 +286,7 @@ class _ToDoState extends State<ToDo> {
                         margin: const EdgeInsets.only(top: 10, bottom: 10),
                         child: Center(
                           child: Text(
-                            "Leah's To Do's",
+                            "Dorinda's To Do's",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,

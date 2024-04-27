@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/models/todo.dart';
+//import 'package:todo_app/providers/todo.dart';
 import 'package:todo_app/widgets/widgets.dart';
 
 class AddTask extends StatefulWidget {
@@ -11,11 +13,11 @@ class AddTask extends StatefulWidget {
 
 class _AddTaskState extends State<AddTask> {
   TextEditingController taskController = TextEditingController();
-  TaskStatus _selectedStatus = TaskStatus.all;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal:16,),
       child: Scaffold(
         backgroundColor: Colors.pink[50],
         appBar: AppBar(
@@ -66,12 +68,12 @@ class _AddTaskState extends State<AddTask> {
                       );
                     } else {
                       Navigator.pop(
-                          context,
-                          ToDoList(
-                            todoText: task,
-                            isDone: false,
-                          ));
-                      
+                        context,
+                        ToDoList(
+                          todoText: task,
+                          isDone: false,
+                        ),
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                         mySnackBar("${taskController.text} Added to List!"),
                       );
