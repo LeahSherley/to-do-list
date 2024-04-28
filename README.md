@@ -1,16 +1,15 @@
-# todo_app
+# todoMate
 
-A new Flutter project.
+Minimalistic Todo App using Flutter.
 
-## Getting Started
+## Tech Stack
 
-This project is a starting point for a Flutter application.
+- **Flutter**: Cross-platform UI toolkit.
+- **Dart**: Programming language used with Flutter.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![SplashScreen](/app_screenshots/screenshots/Screenshot_20240428-111328.jpg)
+![Home](/app_screenshots/screenshots/Screenshot_20240428-111211.jpg)
+![Drawer](/app_screenshots/screenshots/Screenshot_20240428-111217.jpg)
+![AddTask](/app_screenshots/screenshots/Screenshot_20240428-111148.jpg)

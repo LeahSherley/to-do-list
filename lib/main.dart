@@ -8,8 +8,15 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isDarkMode = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +37,13 @@ class MyApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData.dark().copyWith(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black26),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
         textTheme: GoogleFonts.gentiumPlusTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
-      themeMode: ThemeMode.light,
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: const SplashScreen(),
     );
   }

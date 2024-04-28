@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/models/todo.dart';
+import 'package:todo_app/screens/edit_task.dart';
 //import 'package:todo_app/providers/todo.dart';
 import 'package:todo_app/widgets/widgets.dart';
 
 class ToDoItem extends StatefulWidget {
-  const ToDoItem(
-      {super.key,
-      required this.todo,
-      required this.onDelete,
-      required this.onChanged,
-      });
+  const ToDoItem({
+    super.key,
+    required this.todo,
+    required this.onDelete,
+    required this.onChanged,
+  });
 
   final ToDoList todo;
   final dynamic onDelete;
@@ -32,9 +33,9 @@ class _ToDoItemState extends State<ToDoItem> {
       child: ListTile(
         onTap: () {
           //widget.onChanged(widget.todo);
-         setState(() {
+          setState(() {
             widget.todo.isDone = !widget.todo.isDone;
-         });
+          });
           ScaffoldMessenger.of(context).clearSnackBars();
           ScaffoldMessenger.of(context).showSnackBar(mySnackBar(
               widget.todo.isDone
@@ -61,19 +62,51 @@ class _ToDoItemState extends State<ToDoItem> {
               decoration:
                   widget.todo.isDone ? TextDecoration.lineThrough : null),
         ),
-        trailing: IconButton(
-            onPressed: () {
-              widget.onDelete(widget.todo.id);
-              //ref.read(toDoProvider.notifier).removeTask(widget.todo.id!);
-              ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(mySnackBar("${widget.todo.todoText} deleted!"));
-            },
-            icon: const Icon(
-              Icons.delete,
-              size: 18,
-              color: Colors.red,
-            )),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            IconButton(
+                onPressed: () async {
+                  final result = await showModalBottomSheet(
+                      useSafeArea: true,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.pink[50],
+                      elevation: 0,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(10.0)),
+                      ),
+                      context: context,
+                      builder: (BuildContext context) {
+                        return EditTask(
+                          todo: widget.todo,
+                        );
+                      });
+                  if (result != null) {
+                    setState(() {});
+                  }
+                },
+                icon: Icon(
+                  Icons.edit,
+                  size: 16,
+                  color: Colors.grey[700],
+                )),
+            IconButton(
+                onPressed: () {
+                  widget.onDelete(widget.todo.id);
+                  //ref.read(toDoProvider.notifier).removeTask(widget.todo.id!);
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      mySnackBar("${widget.todo.todoText} deleted!"));
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  size: 16,
+                  color: Colors.pink,
+                )),
+          ],
+        ),
       ),
     );
   }

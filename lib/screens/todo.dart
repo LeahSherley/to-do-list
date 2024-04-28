@@ -17,6 +17,7 @@ class _ToDoState extends State<ToDo> {
   late List<ToDoList> filteredtodo;
   List<ToDoList> todo = [];
   TaskStatus _selectedStatus = TaskStatus.all;
+  bool isDarkMode = false;
 
   void updateTasks() {
     setState(() {
@@ -107,8 +108,7 @@ class _ToDoState extends State<ToDo> {
                 alignment: Alignment.centerRight,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Colors.pink[100], 
+                    backgroundColor: Colors.pink[100],
                     // Set the text color
                   ),
                   onPressed: () => Navigator.pop(context),
@@ -222,6 +222,11 @@ class _ToDoState extends State<ToDo> {
               ),
             ),
             ListTile(
+              onTap: () {
+                setState(() {
+                  isDarkMode =! isDarkMode;
+                });
+              },
               title: mytext("Dark Mode"),
               leading: Icon(
                 Icons.dark_mode_rounded,
